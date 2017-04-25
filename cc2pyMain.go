@@ -1,22 +1,36 @@
+// 汉语拼音转换工具.
+
 package main
 
 import (
 	"fmt"
-	pybr "github.com/go-cc/cc-table/cc-pinyin-range"
+
+	pinyin "github.com/go-cc/cc-pinyin"
 )
 
 func main() {
-	s := `名著：《红楼梦》〖清〗曹雪芹 著、高鹗 续／『人民文学』出版社／1996—9月30日／59.70【元】，《三国演义》〖明〗罗贯中。`
+	hans := "中国人"
+	// 默认
+	a := pinyin.NewArgs()
+	fmt.Println(pinyin.Pinyin(hans, a))
+	// [[zhong] [guo] [ren]]
 
-	py := pybr.New("")
-	p := py.Convert(s)
+	// 包含声调
+	a.Style = pinyin.Tone
+	fmt.Println(pinyin.Pinyin(hans, a))
+	// [[zhōng] [guó] [rén]]
 
-	fmt.Println(p)
+	// 声调用数字表示
+	a.Style = pinyin.Tone2
+	fmt.Println(pinyin.Pinyin(hans, a))
+	// [[zho1ng] [guo2] [re2n]]
 
-	//设置分隔符
-	//首字母是否大写
-	py.Split = "-"
-	py.Upper = false
-	p = py.Convert(s)
-	fmt.Println(p)
+	// 开启多音字模式
+	a = pinyin.NewArgs()
+	a.Heteronym = true
+	fmt.Println(pinyin.Pinyin(hans, a))
+	// [[zhong zhong] [guo] [ren]]
+	a.Style = pinyin.Tone2
+	fmt.Println(pinyin.Pinyin(hans, a))
+	// [[zho1ng zho4ng] [guo2] [re2n]]
 }
