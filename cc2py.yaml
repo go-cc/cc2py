@@ -1,0 +1,43 @@
+# program name, name for the executable
+ProgramName: cc2py
+
+PackageName: main
+
+Name: cc2pyC
+Desc: Chinese-Character to Pinyin converter
+Text: Converter Chinese to pinyin in different ways
+#NumArg: cli.AtLeast(1)
+#NumOption: cli.AtLeast(3)
+
+Options:
+  - Name: Filei
+    Type: '*clix.Reader'
+    Flag: "i,in"
+    Usage: 'the Chinese text file to read from (or stdin)\n\t\t\tif not specified, read from command line instead'
+
+  - Name: Tone
+    Type: int
+    Flag: 't,tone'
+    Usage: 'tone selection\n\t\t\t  0: normal. mnemonic~ nothing\n\t\t\t  1: tone at the end. mnemonic~ single sided\n\t\t\t  2: tone after yunmu. mnemonic~ double sided\n\t\t\t  3: tone on yunmu. mnemonic~ fancy'
+
+  - Name: Truncate
+    Type: int
+    Flag: 'l,truncate'
+    Usage: 'select only part of the pinyin\n\t\t\t  0: normal. mnemonic~ nothing truncated\n\t\t\t  1: leave first char. mnemonic~ one\n\t\t\t  2: leave first shengmu. mnemonic~ might be two\n\t\t\t  9: leave only yunmu. mnemonic~ last'
+
+  - Name: Separator
+    Type: string
+    Flag: s,separator
+    Usage: separator string between each pinyin
+    Value: " "
+
+  - Name: Polyphone
+    Type: bool
+    Flag: p,polyphone
+    Usage: polyphone support, output each polyphone pinyin available
+
+  - Name: Capital
+    Type: bool
+    Flag: c,capitalized
+    Usage: capitalized each pinyin word
+
