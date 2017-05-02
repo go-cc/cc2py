@@ -6,7 +6,9 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
+	"strings"
 
 	pinyin "github.com/go-cc/cc-pinyin"
 	"github.com/mkideal/cli"
@@ -34,36 +36,43 @@ func main() {
 }
 
 func cc2pyC(ctx *cli.Context) error {
-	ctx.JSON(ctx.RootArgv())
-	ctx.JSON(ctx.Argv())
-	fmt.Println()
+	// ctx.JSON(ctx.RootArgv())
+	// ctx.JSON(ctx.Argv())
+	// fmt.Println()
+	// fmt.Println(ctx.Args())
+	argv := ctx.Argv().(*rootT)
 
-	s := `名著：《红楼梦》〖清〗曹雪芹 著、高鹗 续／『人民文学』出版社／19969月30日／59.70【元】，《三国演义》〖明〗罗贯中。`
-	_ = s
-	hans := "中国人的〖中国银行〗，很.行.。"
+	// input data
+	var dd string
+	if ctx.IsSet("--Filei") { // --Filei option is specified
+		data, err := ioutil.ReadAll(argv.Filei)
+		abortOn("Input", err)
+		argv.Filei.Close()
+		print(data)
+		dd = string(data)
+		print(dd)
+	} else {
+		dd = strings.Join(ctx.Args(), " ")
+	}
 
-	// 默认
-	a := pinyin.NewPinyin()
-	//a.Separator = "_"
-	fmt.Println(a.Convert(hans))
-
-	// 包含声调
-	a.SetStyle(pinyin.Tone)
-	fmt.Println(a.Convert(hans))
-
-	// 声调用数字表示
-	a.SetStyle(pinyin.Tone2)
-	fmt.Println(a.Convert(hans))
-
-	// 声调在拼音后用数字表示
-	a.SetStyle(pinyin.Tone3)
-	fmt.Println(a.Convert(hans))
-
-	// 开启多音字模式
-	a.Heteronym = true
-	fmt.Println(a.Convert(hans))
-	a.SetStyle(pinyin.Tone)
-	fmt.Println(a.Convert(hans))
+	fmt.Println(cc2py(dd, argv.Tone, argv.Truncate,
+		argv.Separator, argv.Polyphone, argv.Capital))
 
 	return nil
+}
+
+func cc2py(dd string, tone, truncate int, separator string, polyphone, capitalized bool) string {
+	py := pinyin.NewPinyin(tone, truncate, separator, polyphone, capitalized)
+	return py.Convert(dd)
+}
+
+//==========================================================================
+// support functions
+
+// abortOn will quit on anticipated errors gracefully without stack trace
+func abortOn(errCase string, e error) {
+	if e != nil {
+		fmt.Printf("[%s] %s error: %v\n", progname, errCase, e)
+		os.Exit(1)
+	}
 }

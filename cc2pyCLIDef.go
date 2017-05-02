@@ -30,6 +30,8 @@ var root = &cli.Command{
 	Text: "Converter Chinese to pinyin in different ways",
 	Argv: func() interface{} { return new(rootT) },
 	Fn:   cc2pyC,
+
+	CanSubRoute: true,
 }
 
 // func main() {

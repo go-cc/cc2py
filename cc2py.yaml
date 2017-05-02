@@ -8,6 +8,7 @@ Desc: Chinese-Character to Pinyin converter
 Text: Converter Chinese to pinyin in different ways
 #NumArg: cli.AtLeast(1)
 #NumOption: cli.AtLeast(3)
+CanSubRoute: true
 
 Options:
   - Name: Filei
