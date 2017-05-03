@@ -35,6 +35,21 @@ func main() {
 	fmt.Println("")
 }
 
+// Validate implements cli.Validator interface
+func (argv *rootT) Validate(ctx *cli.Context) error {
+	if argv.Tone < pinyin.Normal || argv.Tone > pinyin.Tone3 {
+		return fmt.Errorf("tone %d out of range. run `%s -h` to get help.",
+			argv.Tone, progname)
+	}
+	if argv.Truncate < pinyin.Normal ||
+		argv.Truncate > pinyin.Initials && argv.Truncate < pinyin.ZeroConsonant ||
+		argv.Truncate > pinyin.Finals {
+		return fmt.Errorf("truncate %d out of range. run `%s -h` to get help.",
+			argv.Truncate, progname)
+	}
+	return nil
+}
+
 func cc2pyC(ctx *cli.Context) error {
 	// ctx.JSON(ctx.RootArgv())
 	// ctx.JSON(ctx.Argv())
