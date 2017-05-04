@@ -68,6 +68,10 @@ func cc2pyC(ctx *cli.Context) error {
 		print(dd)
 	} else {
 		dd = strings.Join(ctx.Args(), " ")
+		if dd == "" {
+			ctx.WriteUsage()
+			os.Exit(0)
+		}
 	}
 
 	fmt.Println(cc2py(dd, argv.Tone, argv.Truncate,
