@@ -59,13 +59,11 @@ func cc2pyC(ctx *cli.Context) error {
 
 	// input data
 	var dd string
-	if ctx.IsSet("--Filei") { // --Filei option is specified
+	if ctx.IsSet("--in") { // -i,--in option is specified
 		data, err := ioutil.ReadAll(argv.Filei)
 		abortOn("Input", err)
 		argv.Filei.Close()
-		print(data)
 		dd = string(data)
-		print(dd)
 	} else {
 		dd = strings.Join(ctx.Args(), " ")
 		if dd == "" {
