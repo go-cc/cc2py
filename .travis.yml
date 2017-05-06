@@ -19,10 +19,11 @@ install:
 script:
   - go test -v ./...
 
+  #  --ldflags "-X main.VERSION=${TRAVIS_TAG}"
 before_deploy:
   - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/386/$MYAPP 
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/amd64/$MYAPP 
+  - GOOS=linux GOARCH=386 go build -ldflags="-X main.buildTime=`date -I`" -o build/386/$MYAPP 
+  - GOOS=linux GOARCH=amd64 go build -ldflags="-X main.buildTime=`date -I`" -o build/amd64/$MYAPP 
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
 
