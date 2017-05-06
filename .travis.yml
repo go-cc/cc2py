@@ -3,7 +3,7 @@ language: go
 env:
   global:
     - MYAPP=cc2py
-    - MYID=suntong
+    - GH=go-cc/$MYAPP
     - MYREPO=ppa
     - MYEMAIL=suntong@cpan.org
     - secure: q9MWKwOtCVDojN1Bc9JL6yOpA6I6/p7bIOOpJugWoLBa7/PvAi+VhSMUDEZ8TqkhYiZ5GbNU5mOfPf0rEiT8sFcBeRRhUxAhF3DJwaMWvQwQrCU/N6Gk+8toQx6j09sb1u1+2iKzH5utou5hrRTI3v02zRDN3yp4yJOxIGOsuuAuv9LgB3g1AFH6ybaPOFFSwIp1q6/Ey56iC32uFTlQ6jNpptdC2+OJuOHDCeRkA2Rx6QSYoAORItasbZToo4G/F6J7KkAhcl4cQiVTK5dlrol8o5q6Y0+6eI5O2o1GWf4Wd8Lv7YSfA+lGlOOd6t1Ofzct7gFOLGLBt13KUO4fpre9D72BOjX72rXZjmbZz2e9wTJbFBBksgmYmDBY2a3uag2vDUaVFXxrn4m1HVtk/9WsSOiDdxkMJcJt25CS0j2H6MWF2dX6qZ2VbAQsSkyJa4+42FnxQ22+iES+tQ6g4LyuEhC62iEO3thn2gLvLvA/JDcvqZnJbvvV7LjpqaDRAdbOYl0zCjXdtobF0KMLi8GQ1jF1oOj/n/uq/t4j3PI3sQmtPfCaDrWOWnKX9Y5DqHYr65zWSShAn7IIHV6BVzCFVBHs/cypxFWPxj2G/5q5OtC8QuNp8V7vTB84BVkHmT2LIhXXqHDYHLdq78KugZN8hvG9Ow7dsq6Q4RqNEaY=
@@ -23,13 +23,13 @@ before_deploy:
   - mkdir -p build/{386,amd64}
   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/386/$MYAPP 
   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/amd64/$MYAPP 
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$MYID/$MYAPP sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$MYID/$MYAPP sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
 
 after_deploy:
   - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$MYID/$MYAPP EMAIL=$MYEMAIL sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$MYID/$MYAPP EMAIL=$MYEMAIL sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
 
 deploy:
   provider: releases
@@ -42,5 +42,5 @@ deploy:
     - $APP-386.rpm
     - $APP-amd64.rpm
   skip_cleanup: true
-  on:
-    tags: true
+#  on:
+#    tags: true
