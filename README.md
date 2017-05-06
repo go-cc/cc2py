@@ -14,6 +14,8 @@
 - [Usage](#usage)
   - [$ cc2py](#-cc2py)
 - [Examples](#examples)
+- [Install](#install)
+  - [linux deb/rpm package](#linux-debrpm-package)
 
 # cc2py - Chinese-Character to Pinyin converter
 
@@ -72,3 +74,11 @@ ZGRD〖ZGYX〗，H.X.。
 
 
 All patches welcome. 
+
+
+# Install
+
+### linux deb/rpm package
+
+Available at 
+https://github.com/go-cc/cc2py/releases

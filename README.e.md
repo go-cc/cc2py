@@ -41,3 +41,12 @@ $ {{shell "cc2py -i /tmp/pytest.txt -l 1 -s '' -c "}}
 
 
 All patches welcome. 
+
+
+# Install
+
+### linux deb/rpm package
+
+Available at 
+https://github.com/go-cc/cc2py/releases
+
