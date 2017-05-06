@@ -6,7 +6,7 @@ ex3: cc2py -i /tmp/pytest.txt
 
 # {{.Name}}
 
-{{render "license/shields" . "License" "MIT"}}
+[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 {{template "badge/godoc" .}}
 {{template "badge/goreport" .}}
 {{template "badge/travis" .}}
@@ -31,6 +31,8 @@ $ {{shell .ex1}}
 $ {{shell .ex2}}
 
 $ {{shell .ex3}}
+
+$ {{shell "cc2py -i /tmp/pytest.txt -p -t 3"}}
 
 $ {{shell "cc2py -i /tmp/pytest.txt -l 2 -c "}}
 
