@@ -8,6 +8,11 @@ env:
     - USER_EMAIL=suntong@cpan.org
     - secure: NetBtXidp4ZMVGnYnbZLKnH8ZmAffWiGdqXK70dfOJpodmr2amsM0vlomWV4oLDvhZ/jw88OB/17+S/ads1Cj9kf2epLU452cqc19tgqw1TThdrLxp/nCOcFM+cgm1V+dbi4Svrj3a+qUzmXuxjoevY6faQb/V9avx+Mlh9EvNfX9vFF2jcgiKlAjgj7xiDq/XIg1Ml2vO/WO40aOKHCdVXL6bi7zbiKZh/8V1x+8bSsOmsTUeIz0N5EJ/jvcxq2r92o8t+zbELvp+qVEVaHYjulCxfZizU+4QiagVzhEZT3iKJXK6c/SedvxAeM+iBTadFNetjVjpiVNiccWBtRE9R85bN/p+SbmFuZy1EZ5BL3iWh2iyVlgSB9r2Z8BX0rSPrI2v1wy3oYg6Hqhdde7rFVDDUNljLCg+YUF19SV40tYUkvgFpG3iqP1uZsxw3LRtr6DZ34aBn7gjnsk+4ET0+9yaToJquS7QLpHBJJqgoHHjNgPbbdbaETKp+zlhl3tWtWtkSNwIGtzyFgz1NfSyS9ryM+ymTjckWk/zP02mguSPcSBZDYQLydNCN56MlzadLBODVcAsfKAq8SGPdwzs4Ipexh0xLFdJ/iRZDUxWJ8UfuvKUDYy7GYYb83Cl0R54J+j5Qm1UAZ7UvNEnNyhgk6Vm0rfq3TFgonzHQcTOM=
 
+before_install:
+  - sudo apt-get -qq update
+  - mkdir -p ${GOPATH}/bin
+  - go get -v ./...
+
 install:
   - go install
 
