@@ -1,4 +1,4 @@
-NAME    ?= $(basename $(pwd))
+NAME    := $(shell basename $(shell pwd))
 VERSION ?= 0.0.0
 
 all: test
@@ -9,20 +9,23 @@ cleanbuild:
 cleanpkg:
 	rm -fr ./pkg
 
-test:
-	go test -ldflags # "-X main.name=$(NAME)"
+show:
+	echo "Building '${NAME}'"
 
-build: build/$(NAME)
+test:
+	go test -ldflags # "-X main.name=${NAME}"
+
+build: build/${NAME}
 build/%:
 	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -v -o build/$*
 
-pkg: build pkg/$(NAME).deb
+pkg: show build pkg/${NAME}.deb
 pkg/%.deb:
 	mkdir -p ./pkg
 # 	https://github.com/jordansissel/fpm/wiki
 	fpm --verbose -s dir -t deb \
-		--name $(NAME) \
-		--package ./pkg/$(NAME).deb \
+		--name ${NAME} \
+		--package ./pkg/${NAME}.deb \
 		--force \
 		--category universe/text \
 		--epoch $(shell /bin/date +%s) \
