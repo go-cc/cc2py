@@ -45,12 +45,9 @@ $ {{shell "cc2py -i /tmp/pytest.txt -l 1 -s '' -c "}}
 - The latest binary executables are available under  
 https://bintray.com/suntong/bin/{{.Name}}#files/{{.Name}}  
 as the result of the Continuous-Integration process.
-
 - I.e., they are built right from the source code during every git commit automatically by [travis-ci](https://travis-ci.org/), thus are always the latest.
-
 - Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `{{.Name}}-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
-
-- You may want to rename it to a shorter name, e.g., `{{.Name}}`, instead after downloading it. To do the downloading and renaming programatically, use the plain-downloading url  
+- You may want to rename it to a shorter name instead, e.g., `{{.Name}}`, after downloading it. To do the downloading and renaming programatically, use the plain-downloading url  
 https://dl.bintray.com/suntong/bin/{{.Name}}.
 
 
