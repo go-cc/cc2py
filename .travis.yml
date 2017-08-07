@@ -1,47 +1,12 @@
 language: go
 
-env:
-  global:
-    - MYAPP=cc2py
-    - GH=go-cc/$MYAPP
-    - MYREPO=ppa
-    - MYEMAIL=suntong@cpan.org
-    - TRAVIS_TAG=0.1.0
-    - secure: q9MWKwOtCVDojN1Bc9JL6yOpA6I6/p7bIOOpJugWoLBa7/PvAi+VhSMUDEZ8TqkhYiZ5GbNU5mOfPf0rEiT8sFcBeRRhUxAhF3DJwaMWvQwQrCU/N6Gk+8toQx6j09sb1u1+2iKzH5utou5hrRTI3v02zRDN3yp4yJOxIGOsuuAuv9LgB3g1AFH6ybaPOFFSwIp1q6/Ey56iC32uFTlQ6jNpptdC2+OJuOHDCeRkA2Rx6QSYoAORItasbZToo4G/F6J7KkAhcl4cQiVTK5dlrol8o5q6Y0+6eI5O2o1GWf4Wd8Lv7YSfA+lGlOOd6t1Ofzct7gFOLGLBt13KUO4fpre9D72BOjX72rXZjmbZz2e9wTJbFBBksgmYmDBY2a3uag2vDUaVFXxrn4m1HVtk/9WsSOiDdxkMJcJt25CS0j2H6MWF2dX6qZ2VbAQsSkyJa4+42FnxQ22+iES+tQ6g4LyuEhC62iEO3thn2gLvLvA/JDcvqZnJbvvV7LjpqaDRAdbOYl0zCjXdtobF0KMLi8GQ1jF1oOj/n/uq/t4j3PI3sQmtPfCaDrWOWnKX9Y5DqHYr65zWSShAn7IIHV6BVzCFVBHs/cypxFWPxj2G/5q5OtC8QuNp8V7vTB84BVkHmT2LIhXXqHDYHLdq78KugZN8hvG9Ow7dsq6Q4RqNEaY=
-
-before_install:
-  - sudo apt-get -qq update
-  - mkdir -p ${GOPATH}/bin
-  - go get -v ./...
-
-install:
-  - go install
-
 script:
-  - go test -v ./...
-
-before_deploy:
-  - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/386/$MYAPP 
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -ldflags="-X main.buildTime=`date -I`" -o build/amd64/$MYAPP 
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
-
-after_deploy:
-  - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$MYEMAIL sh -xe
+  - go get github.com/mitchellh/gox
+  - gox -osarch="linux/386 linux/amd64 darwin/amd64 windows/amd64" -output="out/{{.Dir}}-{{.OS}}-{{.Arch}}"
+# linux/386 linux/amd64 linux/arm darwin/amd64 darwin/386 windows/amd64 windows/386
 
 deploy:
-  provider: releases
-  api_key:
-    secure: ss/EJQyCwnp/88rYEVWgIu5ksHePNnw7tiiRkPMzX6rICDXD9kmZNZBN3wtSK7RvPwlX6D3p48moUMUhxYfi0OyhYRANuFl2GHxSLl+W0H7ThmTzGcgQwDnQ4iGldlAZNflU6ggslReSCXuS3ZgOrZvXoCJ9zkXP4KuGiASsveNQHBvZJ6nHppzgskial5mv38bKXbCDn5YyfpTwLSpSIVagxpYO/W+AnZF9GVTOmrEAs/fkNojg3pDf/Zv62IQSyxh8/qgPZDyJ7cwMfIlf1m3QwZNH90BWir+j85ehkfzH/nsjK/oSvbtt/qJWfCIi3h8z/JBhGtfZGx6AMz6nqVXkGeQuPzYpCw0AldGkdZmn6lzpOhacLRYayHZJH8XAZYrMiXwuTHFjYJ6AnshTyiWuQ3nEBRck/DTOfjpa93syo5B1ZxshLLLOhv5OAusaIvPHzIcnu62lC/cbnipLLPrQvyUAbVjk2RI/xucZuXOH1s25k/VZcYt1IUJmYMOGmCuAwcWDtxf2bmmSqkbkYnChAp6S1u8mXACmNMygsCGmq0k8CMKYecq31BiD+oT8YJJCriu6YsuvcLrRl425OfF54NNv6cpPnfkLcaww3bBr5opVJI0gRjU1B7N2GLPzSqfeyayexAwP20m1pvDfr0ynJjxjO+fhtPCQ9V5FxJM=
-  file_glob: true
-  file:
-    - $MYAPP-386.deb
-    - $MYAPP-amd64.deb
-    - $APP-386.rpm
-    - $APP-amd64.rpm
-  skip_cleanup: true
-#  on:
-#    tags: true
+  - provider: bintray
+    file: bintray-bin.json
+    user: suntong
+    key: ${BINTRAY_API_KEY}

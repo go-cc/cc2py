@@ -4,7 +4,7 @@
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GoDoc](https://godoc.org/github.com/go-cc/cc2py?status.svg)](http://godoc.org/github.com/go-cc/cc2py)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-cc/cc2py)](https://goreportcard.com/report/github.com/go-cc/cc2py)
-[![travis Status](https://travis-ci.org//go-cc/cc2py.svg?branch=master)](https://travis-ci.org//go-cc/cc2py)
+[![travis Status](https://travis-ci.org/go-cc/cc2py.svg?branch=master)](https://travis-ci.org/go-cc/cc2py)
 
 汉语拼音转换工具.
 
@@ -14,8 +14,10 @@
 - [Usage](#usage)
   - [$ cc2py](#-cc2py)
 - [Examples](#examples)
-- [Install](#install)
-  - [linux deb/rpm package](#linux-debrpm-package)
+- [Download binaries](#download-binaries)
+  - [Debian package](#debian-package)
+- [Install Source](#install-source)
+  - [Author](#author)
 
 # cc2py - Chinese-Character to Pinyin converter
 
@@ -73,12 +75,36 @@ ZGRD〖ZGYX〗，H.X.。
 ```
 
 
-All patches welcome. 
+# Download binaries
+
+- The latest binary executables are available under  
+https://bintray.com/suntong/bin/cc2py#files/cc2py  
+as the result of the Continuous-Integration process.
+
+- I.e., they are built right from the source code during every git commit automatically by [travis-ci](https://travis-ci.org/), thus are always the latest.
+
+- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `cc2py-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
+
+- You may want to rename it to a shorter name, e.g., `cc2py`, instead after downloading it. To do the downloading and renaming programatically, use the url  
+https://dl.bintray.com/suntong/bin/cc2py.
 
 
-# Install
-
-### linux deb/rpm package
+### Debian package
 
 Available at 
-https://github.com/go-cc/cc2py/releases
+
+
+# Install Source
+
+To install the source code instead:
+
+```
+go get github.com/go-cc/cc2py
+```
+
+## Author
+
+Tong SUN  
+![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
+
+All patches welcome.
