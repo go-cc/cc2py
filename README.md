@@ -15,9 +15,9 @@
   - [$ cc2py](#-cc2py)
 - [Examples](#examples)
 - [Download binaries](#download-binaries)
-  - [Debian package](#debian-package)
+- [Debian package](#debian-package)
 - [Install Source](#install-source)
-  - [Author](#author)
+- [Author](#author)
 
 # cc2py - Chinese-Character to Pinyin converter
 
@@ -85,11 +85,11 @@ as the result of the Continuous-Integration process.
 
 - Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `cc2py-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
 
-- You may want to rename it to a shorter name, e.g., `cc2py`, instead after downloading it. To do the downloading and renaming programatically, use the url  
+- You may want to rename it to a shorter name, e.g., `cc2py`, instead after downloading it. To do the downloading and renaming programatically, use the plain-downloading url  
 https://dl.bintray.com/suntong/bin/cc2py.
 
 
-### Debian package
+# Debian package
 
 Available at 
 
@@ -102,7 +102,7 @@ To install the source code instead:
 go get github.com/go-cc/cc2py
 ```
 
-## Author
+# Author
 
 Tong SUN  
 ![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
