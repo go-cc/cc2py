@@ -5,8 +5,23 @@ script:
   - gox -osarch="linux/386 linux/amd64 darwin/amd64 windows/amd64" -output="out/{{.Dir}}-{{.OS}}-{{.Arch}}"
 # linux/386 linux/amd64 linux/arm darwin/amd64 darwin/386 windows/amd64 windows/386
 
+before_deploy:
+  - gem install fpm --no-document
+  - make pkg
+  # http://pkg-go.alioth.debian.org/packaging.html
+  - sed -i -e "s/\$VERSION/${TRAVIS_TAG:=0.0_git$(date +%Y%m%d)-1}/" bintray-pkg.json
+  - sed -i -e "s/\$DATE/$(date +%Y-%m-%d)/" bintray-pkg.json
+
 deploy:
   - provider: bintray
     file: bintray-bin.json
     user: suntong
     key: ${BINTRAY_API_KEY}
+
+  - provider: bintray
+    user: suntong
+    key: $BINTRAY_API_KEY
+    file: bintray-pkg.json
+    skip_cleanup: true
+    on:
+#      tags: true
