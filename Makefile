@@ -27,7 +27,7 @@ pkg/%.deb:
 		--name ${NAME} \
 		--package ./pkg/${NAME}.deb \
 		--force \
-		--category universe/text \
+                --category admin \
 		--epoch $(shell /bin/date +%s) \
 		--iteration $(VERSION) \
 		--deb-compression bzip2 \
@@ -35,7 +35,10 @@ pkg/%.deb:
 		--description "Chinese-Character to Pinyin converter" \
 		--maintainer "Tong Sun <suntong@cpan.org>" \
 		--license "MIT" \
+                --vendor "contrib" \
 		--version $(VERSION) \
 		--architecture amd64 \
 		--depends apt \
 		./build/=/usr/bin/
+
+#		--category universe/text \
