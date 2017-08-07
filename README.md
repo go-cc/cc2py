@@ -88,8 +88,17 @@ https://dl.bintray.com/suntong/bin/cc2py.
 
 # Debian package
 
-Available at 
+Available at https://dl.bintray.com/suntong/deb.
 
+```
+echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee /etc/apt/sources.list.d/suntong-debs.list
+sudo apt-get update
+
+sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
+apt-cache policy cc2py
+
+sudo apt-get install -y cc2py
+```
 
 # Install Source
 

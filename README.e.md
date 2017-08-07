@@ -53,8 +53,17 @@ https://dl.bintray.com/suntong/bin/{{.Name}}.
 
 # Debian package
 
-Available at 
+Available at https://dl.bintray.com/suntong/deb.
 
+```
+echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee /etc/apt/sources.list.d/suntong-debs.list
+sudo apt-get update
+
+sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
+apt-cache policy {{.Name}}
+
+sudo apt-get install -y {{.Name}}
+```
 
 # Install Source
 
