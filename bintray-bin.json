@@ -10,7 +10,7 @@
         "licenses": ["MIT"],
         "public_download_numbers": false
     },
-
+ 
     "version": {
         "name": "latest",
         "gpgSign": false
