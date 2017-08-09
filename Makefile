@@ -27,18 +27,14 @@ pkg/%.deb:
 		--name ${NAME} \
 		--package ./pkg/${NAME}.deb \
 		--force \
-                --category admin \
-		--epoch $(shell /bin/date +%s) \
-		--iteration $(VERSION) \
 		--deb-compression bzip2 \
-		--url https://github.com/go-cc/cc2py \
-		--description "Chinese-Character to Pinyin converter" \
-		--maintainer "Tong Sun <suntong@cpan.org>" \
-		--license "MIT" \
-                --vendor "contrib" \
-		--version $(VERSION) \
-		--architecture amd64 \
+		--url "${PKG_URL}" \
+		--category ${PKG_CAT} \
+		--description "${PKG_DESC}" \
+		--maintainer "${PKG_MAINT}" \
+		--vendor "${PKG_VEND}" \
+		--license "${PKG_LICNS}" \
+		--version ${VERSION} \
+		--architecture ${PKG_ARCH} \
 		--depends apt \
 		./build/=/usr/bin/
-
-#		--category universe/text \
