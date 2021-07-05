@@ -1,0 +1,31 @@
+project_name: cc2py
+
+archives:
+  - format: tar.gz
+    wrap_in_directory: true
+    format_overrides:
+      - goos: windows
+        format: zip
+    # remove README and LICENSE
+    files:
+      - none*
+
+builds:
+  - env: [CGO_ENABLED=0]
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+nfpms:
+- maintainer: Tong Sun <suntong@cpan.org>
+  description: Chinese Char to Pin-Yin
+  homepage: https://github.com/go-cc/cc2py
+  license: MIT
+  formats:
+  - deb
+  - rpm
+  - apk
