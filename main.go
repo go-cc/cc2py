@@ -28,7 +28,7 @@ import (
 
 var (
 	progname  = "cc2py"
-	VERSION   = "0.2.1"
+	VERSION   = "0.2.2"
 	buildTime = "2021-12-18"
 )
 
