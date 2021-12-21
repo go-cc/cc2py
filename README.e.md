@@ -1,29 +1,31 @@
 ---
+Owner: go-cc
 ex1: cc2py -t 3 "中国人的〖中国银行〗，很.行.。"
 ex2: echo "中国人的〖中国银行〗，很.行.。" | tee /tmp/pytest.txt | cc2py -t 1 -i
-ex3: cc2py -i /tmp/pytest.txt
+ex3: cc2py -i /tmp/pytest.txt -t 2
 ---
 
 # {{.Name}}
 
-[![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+{{render "license/shields" . "License" "MIT"}}
 {{template "badge/godoc" .}}
 {{template "badge/goreport" .}}
-{{template "badge/travis" .}}
+[![Build Status](https://github.com/{{.Owner}}/{{.Name}}/actions/workflows/go-release-build.yml/badge.svg?branch=master)](https://github.com/{{.Owner}}/{{.Name}}/actions/workflows/go-release-build.yml)
+[![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
 
 {{pkgdoc}}
 
 ## {{toc 5}}
 
-# {{.Name}} - Chinese-Character to Pinyin converter
+## {{.Name}} - Chinese-Character to Pinyin converter
 
 `{{.Name}}` will convert Chinese-Character to pinyin.
 
-# Usage
+## Usage
 
-#### $ {{exec "cc2py" | color "sh"}}
+### $ {{exec "cc2py" | color "sh"}}
 
-## Examples
+### Examples
 
 ```sh
 $ {{shell .ex1}}
@@ -34,48 +36,80 @@ $ {{shell .ex3}}
 
 $ {{shell "cc2py -i /tmp/pytest.txt -p -t 3"}}
 
-$ {{shell "cc2py -i /tmp/pytest.txt -l 2 -c "}}
+$ {{shell "cc2py -i /tmp/pytest.txt -l 1 -c "}}
 
-$ {{shell "cc2py -i /tmp/pytest.txt -l 1 -s '' -c "}}
+$ {{shell "cc2py -i /tmp/pytest.txt -l 2 -s '' -c "}}
+```
+
+## Download/install binaries
+
+- The latest binary executables are available 
+as the result of the Continuous-Integration (CI) process.
+- I.e., they are built automatically right from the source code at every git release by [GitHub Actions](https://docs.github.com/en/actions).
+- There are two ways to get/install such binary executables
+  * Using the **binary executables** directly, or
+  * Using **packages** for your distro
+
+### The binary executables
+
+- The latest binary executables are directly available under  
+https://github.com/{{.Owner}}/{{.Name}}/releases/latest 
+- Pick & choose the one that suits your OS and its architecture. E.g., for Linux, it would be the `{{.Name}}_verxx_linux_amd64.tar.gz` file. 
+- Available OS for binary executables are
+  * Linux
+  * Mac OS (darwin)
+  * Windows
+- If your OS and its architecture is not available in the download list, please let me know and I'll add it.
+- The manual installation is just to unpack it and move/copy the binary executable to somewhere in `PATH`. For example,
+
+``` sh
+tar -xvf {{.Name}}_*_linux_amd64.tar.gz
+sudo mv -v {{.Name}}_*_linux_amd64/{{.Name}} /usr/local/bin/
+rmdir -v {{.Name}}_*_linux_amd64
 ```
 
 
-# Download binaries
+### Distro package
 
-- The latest binary executables are available under  
-https://bintray.com/suntong/bin/{{.Name}}#files/{{.Name}}  
-as the result of the Continuous-Integration process.
-- I.e., they are built right from the source code during every git commit automatically by [travis-ci](https://travis-ci.org/), thus are always the latest.
-- Pick & choose the binary executable that suits your OS and its architecture. E.g., for Linux, it would most probably be the `{{.Name}}-linux-amd64` file. If your OS and its architecture is not available in the download list, please let me know and I'll add it.
-- You may want to rename it to a shorter name instead, e.g., `{{.Name}}`, after downloading it. To do the downloading and renaming programatically, use the plain-downloading url  
-https://dl.bintray.com/suntong/bin/{{.Name}}.
+- Packages available for Linux distros are
+  * [Alpine Linux](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-alpine)
+  * [Debian](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-deb)
+  * [RedHat](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-rpm)
+
+The repo setup instruction url has been given above.
+For example, for [Debian](https://cloudsmith.io/~suntong/repos/repo/setup/#formats-deb) --
+
+### Debian package
 
 
-# Debian package
+```sh
+curl -1sLf \
+  'https://dl.cloudsmith.io/public/suntong/repo/setup.deb.sh' \
+  | sudo -E bash
 
-Available at https://dl.bintray.com/suntong/deb.
+# That's it. You then can do your normal operations, like
 
-```
-echo "deb [trusted=yes] https://dl.bintray.com/suntong/deb all main" | sudo tee /etc/apt/sources.list.d/suntong-debs.list
 sudo apt-get update
-
-sudo chmod 644 /etc/apt/sources.list.d/suntong-debs.list
 apt-cache policy {{.Name}}
 
 sudo apt-get install -y {{.Name}}
 ```
 
-# Install Source
+## Install Source
 
 To install the source code instead:
 
 ```
-go get github.com/go-cc/cc2py
+go get -v -u github.com/{{.Owner}}/{{.Name}}
 ```
 
-# Author
+## Author
 
 Tong SUN  
 ![suntong from cpan.org](https://img.shields.io/badge/suntong-%40cpan.org-lightgrey.svg "suntong from cpan.org")
+
+_Powered by_ [**WireFrame**](https://github.com/go-easygen/wireframe)  
+[![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-Y.svg)](http://godoc.org/github.com/go-easygen/wireframe)  
+the _one-stop wire-framing solution_ for Go cli based projects, from _init_ to _deploy_.
 
 All patches welcome.
