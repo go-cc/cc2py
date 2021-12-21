@@ -11,7 +11,7 @@ as the result of the Continuous-Integration (CI) process.
 ### The binary executables
 
 - The latest binary executables are directly available under  
-https://github.com/{{.Owner}}/{{.Name}}/releases/latest 
+https://github.com/{{.User}}/{{.Name}}/releases/latest 
 - Pick & choose the one that suits your OS and its architecture. E.g., for Linux, it would be the `{{.Name}}_verxx_linux_amd64.tar.gz` file. 
 - Available OS for binary executables are
   * Linux
@@ -58,7 +58,7 @@ sudo apt-get install -y {{.Name}}
 To install the source code instead:
 
 ```
-go get -v -u github.com/{{.Owner}}/{{.Name}}
+go get -v -u {{.ProjectURL}}
 ```
 
 ## Author
