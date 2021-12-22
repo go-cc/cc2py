@@ -4,16 +4,6 @@ ex2: echo "中国人的〖中国银行〗，很.行.。" | tee /tmp/pytest.txt |
 ex3: cc2py -i /tmp/pytest.txt -t 2
 ---
 
-# {{.Name}}
-
-{{render "license/shields" . "License" "MIT"}}
-{{template "badge/godoc" .}}
-{{template "badge/goreport" .}}
-[![Build Status](https://github.com/{{.User}}/{{.Name}}/actions/workflows/go-release-build.yml/badge.svg?branch=master)](https://github.com/{{.User}}/{{.Name}}/actions/workflows/go-release-build.yml)
-[![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
-
-{{pkgdoc}}
-
 ## {{toc 5}}
 - [Download/install binaries](#downloadinstall-binaries)
   - [The binary executables](#the-binary-executables)

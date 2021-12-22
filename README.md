@@ -1,4 +1,3 @@
-
 # cc2py
 
 [![MIT License](http://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
