@@ -11,6 +11,7 @@ ex3: cc2py -i /tmp/pytest.txt -t 2
   - [Debian package](#debian-package)
 - [Install Source](#install-source)
 - [Author](#author)
+- [Contributors](#contributors-)
 
 ## {{.Name}} - Chinese-Character to Pinyin converter
 

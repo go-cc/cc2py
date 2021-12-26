@@ -23,6 +23,7 @@
   - [Debian package](#debian-package)
 - [Install Source](#install-source)
 - [Author](#author)
+- [Contributors](#contributors-)
 
 ## cc2py - Chinese-Character to Pinyin converter
 
