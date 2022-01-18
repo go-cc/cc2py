@@ -1,53 +1,66 @@
 ////////////////////////////////////////////////////////////////////////////
 // Program: cc2pyC
 // Purpose: Chinese-Character to Pinyin converter
-// Authors: Tong Sun (c) 2016-2017, All rights reserved
+// Authors: Tong Sun (c) 2022, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
 package main
 
 import (
-	"github.com/mkideal/cli"
-	clix "github.com/mkideal/cli/ext"
+//  	"fmt"
+//  	"os"
+
+//	"github.com/go-easygen/go-flags"
 )
 
 ////////////////////////////////////////////////////////////////////////////
-// cc2pyC
+// Constant and data type/structure definitions
 
-type rootT struct {
-	cli.Helper
-	Filei     *clix.Reader `cli:"i,in" usage:"the Chinese text file to read from (or stdin)\n\t\t\tif not specified, read from command line instead"`
-	Tone      int          `cli:"t,tone" usage:"tone selection\n\t\t\t  0: normal. mnemonic~ nothing\n\t\t\t  1: tone at the end. mnemonic~ single sided\n\t\t\t  2: tone after yunmu. mnemonic~ double sided\n\t\t\t  3: tone on yunmu. mnemonic~ fancy"`
-	Truncate  int          `cli:"l,truncate" usage:"select only part of the pinyin\n\t\t\t  0: normal. mnemonic~ nothing truncated\n\t\t\t  1: leave first char. mnemonic~ one\n\t\t\t  2: leave first shengmu. mnemonic~ might be two\n\t\t\t  9: leave only yunmu. mnemonic~ last"`
-	Separator string       `cli:"s,separator" usage:"separator string between each pinyin" dft:" "`
-	Polyphone bool         `cli:"p,polyphone" usage:"polyphone support, output each polyphone pinyin available"`
-	Capital   bool         `cli:"c,capitalized" usage:"capitalized each pinyin word"`
-}
+// The OptsT type defines all the configurable options from cli.
+//  type OptsT struct {
+//  	Filei	string	`short:"i" long:"in" description:"the Chinese text file to read from (or stdin)\n\t\t\tif not specified, read from command line instead"`
+//  	Tone	int	`short:"t" long:"tone" env:"CC2PY_TONE" description:"tone selection\n\t\t\t  0: normal. mnemonic~ nothing\n\t\t\t  1: tone at the end. mnemonic~ single sided\n\t\t\t  2: tone after yunmu. mnemonic~ double sided\n\t\t\t  3: tone on yunmu. mnemonic~ fancy"`
+//  	Truncate	int	`short:"l" long:"truncate" env:"CC2PY_TRUNCATE" description:"select only part of the pinyin\n\t\t\t  0: normal. mnemonic~ nothing truncated\n\t\t\t  1: leave first char. mnemonic~ one\n\t\t\t  2: leave first shengmu. mnemonic~ might be two\n\t\t\t  9: leave only yunmu. mnemonic~ last"`
+//  	Separator	string	`short:"s" long:"separator" env:"CC2PY_SEPARATOR" description:"separator string between each pinyin" default:" "`
+//  	Polyphone	bool	`short:"p" long:"polyphone" env:"CC2PY_POLYPHONE" description:"polyphone support, output each polyphone pinyin available"`
+//  	Capital	bool	`short:"c" long:"capitalized" env:"CC2PY_CAPITAL" description:"capitalized each pinyin word"`
+//  }
 
-var root = &cli.Command{
-	Name: "cc2pyC",
-	Desc: "Chinese-Character to Pinyin converter\nbuilt on " + buildTime,
-	Text: "Converter Chinese to pinyin in different ways",
-	Argv: func() interface{} { return new(rootT) },
-	Fn:   cc2pyC,
+// Template for main starts here
 
-	CanSubRoute: true,
-}
+////////////////////////////////////////////////////////////////////////////
+// Global variables definitions
 
-// func main() {
-// 	cli.SetUsageStyle(cli.ManualStyle) // up-down, for left-right, use NormalStyle
-// 	//NOTE: You can set any writer implements io.Writer
-// 	// default writer is os.Stdout
-// 	if err := cli.Root(root,).Run(os.Args[1:]); err != nil {
-// 		fmt.Fprintln(os.Stderr, err)
-// 	}
-// 	fmt.Println("")
-// }
+//  var (
+//          progname  = "cc2pyC"
+//          version   = "0.1.0"
+//          date = "2022-01-17"
 
-// func cc2pyC(ctx *cli.Context) error {
-// 	ctx.JSON(ctx.RootArgv())
-// 	ctx.JSON(ctx.Argv())
-// 	fmt.Println()
+//  	// Opts store all the configurable options
+//  	Opts OptsT
+//  )
+//
+//  var parser = flags.NewParser(&Opts, flags.Default)
 
-// 	return nil
-// }
+////////////////////////////////////////////////////////////////////////////
+// Function definitions
+
+// Function main
+//  func main() {
+//
+//  	if _, err := parser.Parse(); err != nil {
+//  		switch flagsErr := err.(type) {
+//  		case flags.ErrorType:
+//  			if flagsErr == flags.ErrHelp {
+//  				os.Exit(0)
+//  			}
+//  			os.Exit(1)
+//  		default:
+//  			fmt.Println()
+//  			parser.WriteHelp(os.Stdout)
+//  			os.Exit(1)
+//  		}
+//  	}
+//  	fmt.Println("")
+//  }
+// Template for main ends here
