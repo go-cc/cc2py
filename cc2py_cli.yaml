@@ -12,7 +12,7 @@ Options:
   - Name: Filei
     Type: string
     Flag: "i,in"
-    Usage: 'the Chinese text file to read from (or "-" for stdin)'
+    Usage: 'the Chinese text file to read from (or \"-\" for stdin)'
 
   - Name: Tone
     Type: int
@@ -46,8 +46,8 @@ Options:
     Usage: capitalized each pinyin word
 
   - Name: Args
-    Args: |
+    Args: |-
       // positional arguments
-      //  Args struct {
-      //    CCStrs []string
-      //  } `positional-args:"yes" required:"yes"`
+      //  	Args struct {
+      //  	  CCStrs []string
+      //  	} `positional-args:"yes" required:"yes"`
