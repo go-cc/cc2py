@@ -4,7 +4,7 @@ Authors: Tong Sun
 
 PackageName: main
 
-Name: cc2pyC
+Name: cc2py
 Desc: Chinese-Character to Pinyin converter
 Text: Converter Chinese to pinyin in different ways
 
@@ -12,7 +12,7 @@ Options:
   - Name: Filei
     Type: string
     Flag: "i,in"
-    Usage: 'the Chinese text file to read from (or stdin)\n\t\t\tif not specified, read from command line instead'
+    Usage: 'the Chinese text file to read from (or "-" for stdin)'
 
   - Name: Tone
     Type: int
@@ -45,3 +45,9 @@ Options:
     EnvV: true
     Usage: capitalized each pinyin word
 
+  - Name: Args
+    Args: |
+      // positional arguments
+      //  Args struct {
+      //    CCStrs []string
+      //  } `positional-args:"yes" required:"yes"`

@@ -2,13 +2,12 @@
 package main
 
 ////////////////////////////////////////////////////////////////////////////
-// Porgram: pinyin
-// Purpose: pinyin conversion Go library
-// Authors: Tong Sun (c) 2017, All rights reserved
-// Credits:
+// Program: cc2py
+// Purpose: Chinese-Character to Pinyin converter
+// Authors: Tong Sun (c) 2017-2022, All rights reserved
 ////////////////////////////////////////////////////////////////////////////
 
-//go:generate sh -v cc2pyCLIGen.sh
+//go:generate sh -v cc2py_cliGen.sh
 
 import (
 	"fmt"
@@ -17,72 +16,94 @@ import (
 	"strings"
 
 	pinyin "github.com/go-cc/cc-pinyin"
-	"github.com/mkideal/cli"
+	"github.com/go-easygen/go-flags"
 )
 
 ////////////////////////////////////////////////////////////////////////////
 // Constant and data type/structure definitions
+
+// The OptsT type defines all the configurable options from cli.
+type OptsT struct {
+	Filei     string `short:"i" long:"in" description:"the Chinese text file to read from (or \"-\" for stdin)"`
+	Tone      int    `short:"t" long:"tone" env:"CC2PY_TONE" description:"tone selection\n\t\t\t  0: normal. mnemonic~ nothing\n\t\t\t  1: tone at the end. mnemonic~ single sided\n\t\t\t  2: tone after yunmu. mnemonic~ double sided\n\t\t\t  3: tone on yunmu. mnemonic~ fancy"`
+	Truncate  int    `short:"l" long:"truncate" env:"CC2PY_TRUNCATE" description:"select only part of the pinyin\n\t\t\t  0: normal. mnemonic~ nothing truncated\n\t\t\t  1: leave first char. mnemonic~ one\n\t\t\t  2: leave first shengmu. mnemonic~ might be two\n\t\t\t  9: leave only yunmu. mnemonic~ last"`
+	Separator string `short:"s" long:"separator" env:"CC2PY_SEPARATOR" description:"separator string between each pinyin" default:" "`
+	Polyphone bool   `short:"p" long:"polyphone" env:"CC2PY_POLYPHONE" description:"polyphone support, output each polyphone pinyin available"`
+	Capital   bool   `short:"c" long:"capitalized" env:"CC2PY_CAPITAL" description:"capitalized each pinyin word"`
+
+	// positional arguments
+	Args struct {
+		CCStrs []string
+	} `positional-args:"yes" required:"yes"`
+}
 
 ////////////////////////////////////////////////////////////////////////////
 // Global variables definitions
 
 var (
 	progname  = "cc2py"
-	VERSION   = "0.2.2"
-	buildTime = "2021-12-18"
+	version   = "0.2.2"
+	date = "2022-01-18"
+
+	// Opts store all the configurable options
+	Opts OptsT
 )
+
+var parser = flags.NewParser(&Opts, flags.Default)
 
 ////////////////////////////////////////////////////////////////////////////
 // Function definitions
 
 // Function main
 func main() {
-	// default writer is os.Stdout
-	if err := cli.Root(root).Run(os.Args[1:]); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+	if _, err := parser.Parse(); err != nil {
+		parser.WriteHelp(os.Stdout)
+		os.Exit(1)
 	}
 	fmt.Println("")
+	err := Validate()
+	abortOn("cli options", err)
+	cc2pyC()
 }
 
-// Validate implements cli.Validator interface
-func (argv *rootT) Validate(ctx *cli.Context) error {
-	if argv.Tone < pinyin.Normal || argv.Tone > pinyin.Tone3 {
+// Validate cli values sanity
+func Validate() error {
+	if Opts.Tone < pinyin.Normal || Opts.Tone > pinyin.Tone3 {
 		return fmt.Errorf("tone %d out of range. run `%s -h` to get help.",
-			argv.Tone, progname)
+			Opts.Tone, progname)
 	}
-	if argv.Truncate < pinyin.Normal ||
-		argv.Truncate > pinyin.Initials && argv.Truncate < pinyin.ZeroConsonant ||
-		argv.Truncate > pinyin.Finals {
+	if Opts.Truncate < pinyin.Normal ||
+		Opts.Truncate > pinyin.Initials && Opts.Truncate < pinyin.ZeroConsonant ||
+		Opts.Truncate > pinyin.Finals {
 		return fmt.Errorf("truncate %d out of range. run `%s -h` to get help.",
-			argv.Truncate, progname)
+			Opts.Truncate, progname)
 	}
 	return nil
 }
 
-func cc2pyC(ctx *cli.Context) error {
-	// ctx.JSON(ctx.RootArgv())
-	// ctx.JSON(ctx.Argv())
-	// fmt.Println()
-	// fmt.Println(ctx.Args())
-	argv := ctx.Argv().(*rootT)
-
+func cc2pyC() error {
 	// input data
 	var dd string
-	if ctx.IsSet("--in") { // -i,--in option is specified
-		data, err := ioutil.ReadAll(argv.Filei)
+	if len(Opts.Filei) != 0 { // -i,--in option is specified
+		var data []byte
+		var err error
+		if Opts.Filei == "-" {
+			data, err = ioutil.ReadAll(os.Stdin)
+		} else {
+			data, err = ioutil.ReadFile(Opts.Filei)
+		}
 		abortOn("Input", err)
-		argv.Filei.Close()
 		dd = string(data)
 	} else {
-		dd = strings.Join(ctx.Args(), " ")
+		dd = strings.Join(Opts.Args.CCStrs, " ")
 		if dd == "" {
-			ctx.WriteUsage()
+			parser.WriteHelp(os.Stdout)
 			os.Exit(0)
 		}
 	}
 
-	fmt.Println(cc2py(dd, argv.Tone, argv.Truncate,
-		argv.Separator, argv.Polyphone, argv.Capital))
+	fmt.Println(cc2py(dd, Opts.Tone, Opts.Truncate,
+		Opts.Separator, Opts.Polyphone, Opts.Capital))
 
 	return nil
 }
