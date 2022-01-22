@@ -9,6 +9,7 @@
 [![Build Status](https://github.com/go-cc/cc2py/actions/workflows/go-release-build.yml/badge.svg?branch=master)](https://github.com/go-cc/cc2py/actions/workflows/go-release-build.yml)
 [![PoweredBy WireFrame](https://github.com/go-easygen/wireframe/blob/master/PoweredBy-WireFrame-B.svg)](http://godoc.org/github.com/go-easygen/wireframe)
 
+
 汉语拼音转换工具.
 
 
@@ -29,42 +30,76 @@
 
 `cc2py` will convert Chinese-Character to pinyin.
 
+```sh
+$ cc2py -V
+cc2py - Chinese-Character to Pinyin converter
+Copyright (C) 2022, Tong Sun
+
+Converter Chinese to pinyin in different ways
+
+Built on 2022-01-22
+Version 0.2.3
+```
+
 ## Usage
 
 ### $ cc2py
 ```sh
-Chinese-Character to Pinyin converter
-built on 2021-12-18
+Usage:
+  cc2py [OPTIONS] CCStrs...
 
-Converter Chinese to pinyin in different ways
+Application Options:
+  -i, --in=          the Chinese text file to read from (or "-" for stdin)
+  -t, --tone=        tone selection
+                     0: normal. mnemonic~ nothing
+                     1: tone at the end. mnemonic~ single sided
+                     2: tone after yunmu. mnemonic~ double sided
+                     3: tone on yunmu. mnemonic~ fancy [$CC2PY_TONE]
+  -l, --truncate=    select only part of the pinyin
+                     0: normal. mnemonic~ nothing truncated
+                     1: leave first char. mnemonic~ one
+                     2: leave first shengmu. mnemonic~ might be two
+                     9: leave only yunmu. mnemonic~ last [$CC2PY_TRUNCATE]
+  -s, --separator=   separator string between each pinyin (default:  )
+                     [$CC2PY_SEPARATOR]
+  -p, --polyphone    polyphone support, output each polyphone pinyin available
+                     [$CC2PY_POLYPHONE]
+  -c, --capitalized  capitalized each pinyin word [$CC2PY_CAPITAL]
+  -v, --verbose      Verbose mode (Multiple -v options increase the verbosity)
+  -V, --version      Show program version and exit
 
-Options:
-
-  -h, --help            display help information
-  -i, --in              the Chinese text file to read from (or stdin)
-			if not specified, read from command line instead
-  -t, --tone            tone selection
-			  0: normal. mnemonic~ nothing
-			  1: tone at the end. mnemonic~ single sided
-			  2: tone after yunmu. mnemonic~ double sided
-			  3: tone on yunmu. mnemonic~ fancy
-  -l, --truncate        select only part of the pinyin
-			  0: normal. mnemonic~ nothing truncated
-			  1: leave first char. mnemonic~ one
-			  2: leave first shengmu. mnemonic~ might be two
-			  9: leave only yunmu. mnemonic~ last
-  -s, --separator[= ]   separator string between each pinyin
-  -p, --polyphone       polyphone support, output each polyphone pinyin available
-  -c, --capitalized     capitalized each pinyin word
+Help Options:
+  -h, --help         Show this help message
 ```
 
 ### Examples
 
 ```sh
+$ cc2py 汉语拼音转换工具
+han yu pin yin zhuan huan gong ju
+
+$ cc2py -c 汉语 拼音 转换 工具
+Han Yu  Pin Yin  Zhuan Huan  Gong Ju
+
+$ cc2py -t 1 -c 汉语 拼音 转换 工具
+Han4 Yu3  Pin1 Yin1  Zhuan3 Huan4  Gong1 Ju4
+
+$ cc2py -c 汉语 拼音 转换 工具 -t 2
+Ha4n Yu3  Pi1n Yi1n  Zhua3n Hua4n  Go1ng Ju4
+
+$ cc2py -c 汉语 拼音 转换 工具 -t 3
+Hàn Yǔ  Pīn Yīn  Zhuǎn Huàn  Gōng Jù
+
+$ cc2py -c 汉语 拼音 转换 工具 -t 4 || true
+[cc2py] cli options error: tone 4 out of range. run `cc2py -h` to get help.
+
+$ cc2py -c -t 3 -s '' 汉语拼音 转换 工具
+HànYǔPīnYīn ZhuǎnHuàn GōngJù
+
 $ cc2py -t 3 "中国人的〖中国银行〗，很.行.。"
 zhōng guó rén de 〖zhōng guó yín xíng 〗，hěn .xíng .。
 
-$ echo "中国人的〖中国银行〗，很.行.。" | tee /tmp/pytest.txt | cc2py -t 1 -i
+$ echo "中国人的〖中国银行〗，很.行.。" | tee /tmp/pytest.txt | cc2py -t 1 -i -
 zhong1 guo2 ren2 de 〖zhong1 guo2 yin2 xing2 〗，hen3 .xing2 .。
 
 $ cc2py -i /tmp/pytest.txt -t 2
