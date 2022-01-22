@@ -22,4 +22,7 @@ type OptsT struct {
 	Args struct {
 		CCStrs []string
 	} `positional-args:"yes" required:"yes"`
+	Verbflg func() `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+	Verbose int
+	Version func() `short:"V" long:"version" description:"Show program version and exit"`
 }

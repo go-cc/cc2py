@@ -24,7 +24,7 @@ import (
 //  var (
 //          progname  = "cc2py"
 //          version   = "0.1.0"
-//          date = "2022-01-18"
+//          date = "2022-01-22"
 
 //  	// Opts store all the configurable options
 //  	Opts OptsT
@@ -37,6 +37,10 @@ import (
 
 // Function main
 //  func main() {
+//  	Opts.Version = showVersion
+//  	Opts.Verbflg = func() {
+//  		Opts.Verbose++
+//  	}
 //
 //  	if _, err := parser.Parse(); err != nil {
 //  		fmt.Println()
@@ -45,6 +49,14 @@ import (
 //  	}
 //  	fmt.Println()
 //  	//DoCc2py()
+//  }
+//
+//  func showVersion() {
+//   	fmt.Fprintf(os.Stderr, "cc2py - Chinese-Character to Pinyin converter\n")
+//   	fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Tong Sun\n\n")
+//  	fmt.Fprintf(os.Stderr, "Converter Chinese to pinyin in different ways\n\nBuilt on %s\nVersion %s\n",
+//  		date, version)
+//  	os.Exit(0)
 //  }
 // Template for main ends here
 
@@ -70,5 +82,8 @@ import (
 //  	Args struct {
 //  	  CCStrs []string
 //  	} `positional-args:"yes" required:"yes"`
+//  	Verbflg func()  `short:"v" long:"verbose" description:"Verbose mode (Multiple -v options increase the verbosity)"`
+//  	Verbose int
+//  	Version func()  `short:"V" long:"version" description:"Show program version and exit"`
 //  }
 // Template for type define ends here

@@ -7,6 +7,8 @@ PackageName: main
 Name: cc2py
 Desc: Chinese-Character to Pinyin converter
 Text: Converter Chinese to pinyin in different ways
+Verbose: true
+Version: true
 
 Options:
   - Name: Filei
