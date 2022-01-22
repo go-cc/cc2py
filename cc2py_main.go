@@ -27,8 +27,8 @@ import (
 
 var (
 	progname = "cc2py"
-	version  = "0.2.2"
-	date     = "2022-01-18"
+	version  = "0.2.3"
+	date     = "2022-01-22"
 
 	// Opts store all the configurable options
 	Opts OptsT
@@ -41,6 +41,11 @@ var parser = flags.NewParser(&Opts, flags.Default)
 
 // Function main
 func main() {
+	Opts.Version = showVersion
+	Opts.Verbflg = func() {
+		Opts.Verbose++
+	}
+
 	if _, err := parser.Parse(); err != nil {
 		parser.WriteHelp(os.Stdout)
 		os.Exit(1)
@@ -105,6 +110,14 @@ func cc2py(dd string, tone, truncate int, separator string, polyphone, capitaliz
 
 //==========================================================================
 // support functions
+
+func showVersion() {
+	fmt.Fprintf(os.Stderr, "cc2py - Chinese-Character to Pinyin converter\n")
+	fmt.Fprintf(os.Stderr, "Copyright (C) 2022, Tong Sun\n\n")
+	fmt.Fprintf(os.Stderr, "Converter Chinese to pinyin in different ways\n\nBuilt on %s\nVersion %s\n",
+		date, version)
+	os.Exit(0)
+}
 
 // abortOn will quit on anticipated errors gracefully without stack trace
 func abortOn(errCase string, e error) {
